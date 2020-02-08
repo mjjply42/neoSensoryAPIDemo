@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Link, useRouteMatch, useParams, Switch } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import config from '../utils/config.json'
 import emptyUser from '../images/blank-profile.png'
 
 
@@ -15,7 +16,7 @@ export const Profile = () => {
     const [noUser, updateNoUser] = useState(false)
 
     const getProfileUser = async (user) => {
-        let result = await fetch(`http://0.0.0.0:3001/users/${user}`)
+        let result = await fetch(`${config.API_URL}/users/${user}`)
         if (result.status === 200)
         {
             let information = await result.json()
@@ -33,7 +34,6 @@ export const Profile = () => {
     const handleClick = () => {
         if (editOpen)
         {
-            console.log("HERE")
             let revertEdits = JSON.parse(JSON.stringify(editFields))
             Object.keys(revertEdits).forEach((item, index) => {
                 revertEdits[item] = profileUser.user[item]
@@ -51,7 +51,7 @@ export const Profile = () => {
     }
 
     const updateUser = async () => {
-        let result = await fetch(`http://0.0.0.0:3001/users/${profileUser.user['uuid']}`,{
+        let result = await fetch(`${config.API_URL}/users/${profileUser.user['uuid']}`,{
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(editFields)
@@ -72,8 +72,12 @@ export const Profile = () => {
         getProfileUser(pathSplit[2])
     },[])
 
+    const backString = "< Back"
     return (
         <>
+        <div style={styles.rofileBackButtonDiv}>
+            <h7 style={styles.profileBackButton} onClick={()=> {window.history.back()}}>{backString}</h7>
+        </div>
         <div style={styles.userMainContainer}>
             {!noUser &&
             <>
@@ -81,26 +85,26 @@ export const Profile = () => {
             <div style={styles.profileInfoContain}>
                 {profileUser && !editOpen &&
                 <>
-                    <p>{profileUser.user['name']}</p>
-                    <p>{profileUser.user['email']}</p>
-                    <p>{profileUser.user['notes']}</p>
+                    <h3 style={styles.profileDescription}>{profileUser.user['name']}</h3>
+                    <p style={styles.profileDescription}>{profileUser.user['email']}</p>
+                    <p style={styles.profileDescription}>{profileUser.user['notes']}</p>
                 </>
                 }
                 {editOpen && 
                 <div style={{display: 'flex', flexDirection: 'column'}}>
                     <label>Name: 
-                        <textarea onChange={handleChange} value={editFields['name']} type="text" name="name" />
+                        <textarea style={styles.textArea} onChange={handleChange} value={editFields['name']} type="text" name="name" />
                     </label>
                     <label>Email: 
-                        <textarea onChange={handleChange} value={editFields['email']} type="text" name="email" />
+                        <textarea style={styles.textArea} onChange={handleChange} value={editFields['email']} type="text" name="email" />
                     </label>
                     <label>Notes: 
-                        <textarea onChange={handleChange} value={editFields['notes']} type="text" name="notes" />
+                        <textarea style={styles.textArea} onChange={handleChange} value={editFields['notes']} type="text" name="notes" />
                     </label>
                     </div>
                 }
-                <button onClick={handleClick}>{editOpen ? 'Cancel':'Edit Profile'}</button>
-                {editOpen && <button onClick={updateUser}>Update</button>}
+                <button style={styles.editProfile} onClick={handleClick}>{editOpen ? 'Cancel':'Edit Profile'}</button>
+                {editOpen && <button style={styles.editProfile} onClick={updateUser}>Update</button>}
             </div>
             </>
             }
@@ -116,11 +120,22 @@ export const Profile = () => {
     )
 }
 const styles = {
+    editProfile: {
+        fontSize: '20px',
+        marginRight: '10px',
+        marginLeft: '10px',
+    },
+    textArea: {
+        fontSize: '20px',
+        minWidth: '90%',
+        marginBottom: '20px',
+    },
     userMainContainer: {
         width: '90%',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
+        justifyContent: 'center',
     },
     userImage: {
         width: '80%',
@@ -129,5 +144,19 @@ const styles = {
     },
     profileInfoContain: {
         width: '50%',
-    }
+        marginLeft: '30px',
+    },
+    profileDescription: {
+        textAlign: 'left',
+        wordWrap: 'break-word',
+    },
+    rofileBackButtonDiv: {
+        width: '80%',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        marginBottom: '40px',
+    },
+    profileBackButton: {
+        textAlign: 'left',
+    },
 }
