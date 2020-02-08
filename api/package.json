@@ -1,0 +1,16 @@
+{
+  "name": "front-end-interview-assignment",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node main.js",
+    "dev": "nodemon main.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.2",
+    "uuid": "^3.4.0"
+  }
+}

@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    api:
+        build: ./api
+        working_dir: /usr/app
+        restart: on-failure
+        volumes:
+            - ./api:/usr/app
+        ports:
+            - 3001:8080
+        command: ./node_modules/nodemon/bin/nodemon ./main.js
