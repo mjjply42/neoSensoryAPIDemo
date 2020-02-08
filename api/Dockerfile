@@ -1,7 +1,5 @@
 FROM node:13
-WORKDIR /usr/app/
-COPY ./package*.json /usr/app/api/
+WORKDIR /usr/src/app
+COPY ./package*.json ./
+RUN npm install
 COPY . .
-RUN npm install 
-COPY . .
-CMD ["npm", "start"]

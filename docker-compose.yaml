@@ -3,20 +3,17 @@ version: '3'
 services:
     api:
         build: ./api
-        working_dir: /usr/app
+        working_dir: /usr/src/app
         restart: on-failure
-        volumes:
-            - ./api:/usr/app
         ports:
             - 3001:8080
         command: ./node_modules/nodemon/bin/nodemon ./main.js
     client:
         build: ./client
-        working_dir: /usr/app
+        working_dir: /usr/src/app/
         restart: on-failure
         depends_on: 
             - api
-        volumes:
-            - ./client:/usr/app
         ports:
             - 3000:3000
+        command: npm start

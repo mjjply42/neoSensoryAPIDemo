@@ -1,8 +1,5 @@
 FROM node:13
-WORKDIR /usr/app/
-COPY ./package*.json /usr/app/client/
-COPY . .
+WORKDIR /usr/src/app
+COPY ./package.json ./
 RUN npm install
-RUN npm install react-scripts
 COPY . .
-CMD ["npm", "start"]

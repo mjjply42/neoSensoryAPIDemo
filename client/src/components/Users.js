@@ -16,7 +16,6 @@ export const Users = () => {
     }
 
     useEffect(() => {
-        console.log("HERE")
         dispatch({type: 'update-users-saga-pusher'})
     },[])
 
