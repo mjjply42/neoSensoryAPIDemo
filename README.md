@@ -2,4 +2,4 @@
 ```console
 docker-compose up
 ```
-**If the browser doesn open a window for you (it will take a while to load), then open up _0.0.0.0:3000_ in the browser manually**
+**Open _localhost:3000_ in your browser to access the client**
